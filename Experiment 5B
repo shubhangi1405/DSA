@@ -1,0 +1,103 @@
+class Student:
+    def __init__(self, admission_no, name, course, marks):
+        self.admission_no = admission_no
+        self.name = name
+        self.course = course
+        self.marks = marks
+
+
+class Node:
+    def __init__(self, student):
+        self.student = student
+        self.left = None
+        self.right = None
+
+
+class StudentBST:
+    def __init__(self):
+        self.root = None
+
+    # Insert a student
+    def insert(self, student):
+        new_node = Node(student)
+
+        if self.root is None:
+            self.root = new_node
+            return
+
+        current = self.root
+
+        while True:
+            if student.admission_no < current.student.admission_no:
+                if current.left is None:
+                    current.left = new_node
+                    return
+                current = current.left
+
+            elif student.admission_no > current.student.admission_no:
+                if current.right is None:
+                    current.right = new_node
+                    return
+                current = current.right
+
+            else:
+                print("Admission number already exists!")
+                return
+
+    # Search for a student
+    def search(self, admission_no):
+        current = self.root
+
+        while current is not None:
+            if admission_no == current.student.admission_no:
+                return current.student
+
+            elif admission_no < current.student.admission_no:
+                current = current.left
+
+            else:
+                current = current.right
+
+        return None
+
+    # Display students in sorted order
+    def inorder(self, node):
+        if node is not None:
+            self.inorder(node.left)
+
+            print("Admission No:", node.student.admission_no)
+            print("Name:", node.student.name)
+            print("Course:", node.student.course)
+            print("Marks:", node.student.marks)
+            print("----------------------")
+
+            self.inorder(node.right)
+
+
+# Main program
+bst = StudentBST()
+
+# Adding student records
+bst.insert(Student(105, "Rahul", "Computer Science", 85))
+bst.insert(Student(102, "Priya", "AI & Data Science", 91))
+bst.insert(Student(110, "Amit", "Cyber Security", 78))
+bst.insert(Student(101, "Sneha", "Computer Science", 88))
+bst.insert(Student(108, "Rohan", "AI & Data Science", 82))
+
+# Display all students
+print("STUDENT ADMISSION RECORDS")
+print("=========================")
+bst.inorder(bst.root)
+
+# Search student
+admission_no = 108
+student = bst.search(admission_no)
+
+if student:
+    print("\nStudent Found!")
+    print("Admission No:", student.admission_no)
+    print("Name:", student.name)
+    print("Course:", student.course)
+    print("Marks:", student.marks)
+else:
+    print("\nStudent not found!")
